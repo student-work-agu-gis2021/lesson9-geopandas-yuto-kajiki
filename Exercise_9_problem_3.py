@@ -32,7 +32,7 @@ print(data.crs)
 
 
 #  - Group the data by userid
-""""
+
 #  YOUR CODE HERE 3 to group 
 grouped=None
 grouped = data.groupby('userid')
@@ -49,6 +49,7 @@ assert len(grouped.groups) == data["userid"].nunique(), "Number of groups should
 # YOUR CODE HERE 4 to set movements
 import pandas as pd
 from shapely.geometry import LineString, Point
+movements = None
 movements = gpd.GeoDataFrame(columns=['userid', 'geometry'])
 count=0
 for key, group in grouped:
@@ -59,8 +60,9 @@ for key, group in grouped:
         line=None
     movements.at[count, 'userid'] = key
     movements.at[count, 'geometry'] = line
-    count+=1
+    count= count+1
 movements.crs = CRS.from_epsg(32735)
+
 # CODE FOR TESTING YOUR SOLUTION
 
 #Check the result
@@ -74,13 +76,11 @@ print(movements["geometry"].head())
 # - Calculate the lenghts of the lines into a new column called ``distance`` in ``movements`` GeoDataFrame.
 
 # YOUR CODE HERE 5 to calculate distance
-
-def cal_distance(x):
-    if x['geometry'] is None:
-        return None
-    else:
-        return x['geometry'].length
-movements['distance'] = movements.apply(cal_distance, axis=1)
+for geo in movements['geometry']:
+   if geo is None:
+     movements['distance'].append(None)
+   else:
+     movements['distance'].append(geo.length)
 # CODE FOR TESTING YOUR SOLUTION
 
 #Check the output
@@ -95,13 +95,17 @@ movements.head()
 
 # YOUR CODE HERE 6 to find max, min,mean of the distance.
 import statistics
+
+
 print(statistics.mean(movements['distance'])) #138871.14194459998
 print(max(movements['distance'].dropna())) #8457917.497356484
 print(min(movements['distance'])) #0.0
 # - Finally, save the movements of into a Shapefile called ``some_movements.shp``
 
 # YOUR CODE HERE 7 to save as Shapefile
+fp = 'some_movements.shp'
 
+movements.to_file(fp)
 # CODE FOR TESTING YOUR SOLUTION
 
 import os
@@ -126,5 +130,3 @@ def func9():
 #check movements['distance']
 def func10():
     return movements
-    
-    """

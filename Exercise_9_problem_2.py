@@ -32,7 +32,6 @@ print(data['geometry'].head())
 # YOUR CODE HERE 2
 import geopandas as gpd
 from pyproj import CRS
-
 # Convert DataFrame into a GeoDataFrame
 geo=None
 #converted DataFrame into GeoDataFrame
