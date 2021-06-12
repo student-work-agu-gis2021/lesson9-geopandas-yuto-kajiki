@@ -31,8 +31,8 @@ latitudes = [63.748023986816406, 62.90789794921875, 60.511383056640625, 60.44499
 coordpairs=None
 coordpairs=[]
 #input data for coordpairs
-for i in range(len(longitudes)):
-  coordpairs.append([longitudes[i],latitudes[i]])
+for poi in range(len(longitudes)):
+  coordpairs.append([longitudes[poi],latitudes[poi]])
 # Create a shapely Polygon using the 'coordpairs' -list
 # YOUR CODE HERE 2
  
@@ -78,7 +78,7 @@ print(len(geo))
 # YOUR CODE HERE 4
  #plot the polygon
 geo.plot()
-#plt.show()
+
 # What can you see on the map? :) 
 
 # - save the GeoDataFrame into a Shapefile called `'polygon.shp'`. 
