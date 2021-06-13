@@ -42,7 +42,7 @@ grouped = data.groupby('userid')
 #Check the number of groups:
 assert len(grouped.groups) == data["userid"].nunique(), "Number of groups should match number of unique users!"
 
-
+#print(grouped.head())
 # **Create LineString objects for each user connecting the points from oldest to latest:**
 # 
 
@@ -52,13 +52,13 @@ from shapely.geometry import LineString, Point
 movements = None
 movements = gpd.GeoDataFrame(columns=['userid', 'geometry'])
 count=0
-for key, group in grouped:
+for poi, group in grouped:
     group = group.sort_values('timestamp')
     if len(group['geometry'])>=2:
         line = (LineString(list(group['geometry'])))
     else:
         line=None
-    movements.at[count, 'userid'] = key
+    movements.at[count, 'userid'] = poi
     movements.at[count, 'geometry'] = line
     count= count+1
 movements.crs = CRS.from_epsg(32735)
@@ -76,11 +76,12 @@ print(movements["geometry"].head())
 # - Calculate the lenghts of the lines into a new column called ``distance`` in ``movements`` GeoDataFrame.
 
 # YOUR CODE HERE 5 to calculate distance
-for geo in movements['geometry']:
-   if geo is None:
-     movements['distance'].append(None)
-   else:
-     movements['distance'].append(geo.length)
+def calculate_dis(x):
+    if x['geometry'] is None:
+        return None
+    else:
+        return x['geometry'].length
+movements['distance'] = movements.apply(calculate_dis, axis=1)
 # CODE FOR TESTING YOUR SOLUTION
 
 #Check the output
@@ -90,16 +91,20 @@ movements.head()
 # You should now be able to print answers to the following questions: 
 # 
 #  - What was the shortest distance travelled in meters?
+ # A. 138871.1419446006
 #  - What was the mean distance travelled in meters?
+ # A. 8457917.497356467
 #  - What was the maximum distance travelled in meters?
-
+ # A. 0.0
 # YOUR CODE HERE 6 to find max, min,mean of the distance.
-import statistics
 
-
-print(statistics.mean(movements['distance'])) #138871.14194459998
-print(max(movements['distance'].dropna())) #8457917.497356484
-print(min(movements['distance'])) #0.0
+#calculate mean Max Min
+Max=max(movements['distance'].dropna())
+Min=min(movements['distance'])
+mean=movements['distance'].mean() 
+print(Max)
+print(Min) 
+print(mean)
 # - Finally, save the movements of into a Shapefile called ``some_movements.shp``
 
 # YOUR CODE HERE 7 to save as Shapefile
