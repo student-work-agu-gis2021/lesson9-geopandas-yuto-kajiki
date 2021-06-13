@@ -91,11 +91,11 @@ movements.head()
 # You should now be able to print answers to the following questions: 
 # 
 #  - What was the shortest distance travelled in meters?
- # A. 138871.1419446006
-#  - What was the mean distance travelled in meters?
- # A. 8457917.497356467
-#  - What was the maximum distance travelled in meters?
  # A. 0.0
+#  - What was the mean distance travelled in meters?
+ # A. 138871.1419446006
+#  - What was the maximum distance travelled in meters?
+ # A. 8457917.497356467
 # YOUR CODE HERE 6 to find max, min,mean of the distance.
 
 #calculate mean Max Min
