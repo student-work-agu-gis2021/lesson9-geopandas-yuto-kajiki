@@ -78,9 +78,9 @@ print(len(geo))
 # YOUR CODE HERE 4
  #plot the polygon
 geo.plot()
-
+plt.show()
 # What can you see on the map? :) 
-
+#　⇒　Fukuoka(?) prefecture was shown!!
 # - save the GeoDataFrame into a Shapefile called `'polygon.shp'`. 
 
 # Save the GeoDataFrame into a new Shapefile called 'polygon.shp'.
